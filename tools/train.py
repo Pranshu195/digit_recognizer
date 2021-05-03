@@ -15,8 +15,8 @@ from tqdm import tqdm
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def train(args):
-    train_data = Mnist_Data("./dataset/train.csv", True)
-    val_data = Mnist_Data("./dataset/train.csv", False)
+    train_data = Mnist_Data("./dataset/train.csv", "train")
+    val_data = Mnist_Data("./dataset/train.csv", "val")
     train_loader = DataLoader(train_data, batch_size=100, shuffle= True )
 
     model = CNNModel()
@@ -62,7 +62,7 @@ def train(args):
             best_val_loss = val_loss
             best_val_acc = validation_acc
             best_epoch = epoch
-            #torch.save(model.state_dict(), "tools/dry_wet_julia_rice_data_{}.pth".format(epoch + 1))
+            torch.save(model.state_dict(), "saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_{}.pth".format(epoch + 1))
         # torch.save(model.state_dict(), "weights_epoch_{}.pth".format(epoch + 1))
         print('Best Validation Loss : {}'.format(best_val_loss))
         print('Best Validation Accuracy : {}'.format(best_val_acc))
