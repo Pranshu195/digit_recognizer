@@ -21,23 +21,23 @@ test_data = Mnist_Data("./dataset/test.csv", "test")
 test_loader = DataLoader(test_data, batch_size=1, shuffle= False )
 
 model = CNNModel()
+model.load_state_dict(torch.load("saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_lr_1e-2_5.pth"))
 model.to(device)
 
 criterion = nn.CrossEntropyLoss()
 model.eval()
-correct = 0.0
-total = 0.0
-val_loss = 0.0
 for i, (images, label) in enumerate(tqdm(test_loader)):
     images = Variable(images.view(1,1,28,28)).to(device)
-    # labels = Variable(label).to(device)
-    print(images.shape, labels.shape)
+    labels = Variable(label).to(device)
+    # print(images.shape, labels.shape)
     output = model(images)
     
     ## -----------Finding accuracy
     # print(output.shape)
     out = torch.max(output)
-    out_index = torch.argmax(output)
+    out_index = torch.argmax(output).cpu()
+    print(out_index.numpy())
     # print(out)
-    file.write(str(i) + "," + str(out_index) + "\n")
+    # exit(0)
+    file.write(str(i+1) + "," + str(out_index.numpy()) + "\n")
 

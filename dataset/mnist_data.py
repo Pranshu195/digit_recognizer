@@ -28,7 +28,7 @@ class Mnist_Data(Dataset):
     def get_data(self):
         data_path = self.data_path
         df = pd.read_csv(data_path)
-        print(df.info())
+        # print(df.info())
         if self.split == "train" or self.split == "val":
             labels = df["label"].to_numpy()
             df.drop("label", axis=1, inplace = True)
@@ -54,7 +54,7 @@ class Mnist_Data(Dataset):
             img, label = self.val_X[index], self.val_Y[index]
         else:
             img, label = self.test_X[index], self.test_Y[index]
-        print(img)
+        # print(img)
         img = img.reshape(28,28)
         img_tensor = torch.from_numpy(img).float().div(255)
         label_tensor =  label

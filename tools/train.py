@@ -24,7 +24,7 @@ def train(args):
 
     criterion = nn.CrossEntropyLoss()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-2)
 
     scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
 
@@ -62,7 +62,7 @@ def train(args):
             best_val_loss = val_loss
             best_val_acc = validation_acc
             best_epoch = epoch
-            torch.save(model.state_dict(), "saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_{}.pth".format(epoch + 1))
+            torch.save(model.state_dict(), "saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_lr_1e-2_{}.pth".format(epoch + 1))
         # torch.save(model.state_dict(), "weights_epoch_{}.pth".format(epoch + 1))
         print('Best Validation Loss : {}'.format(best_val_loss))
         print('Best Validation Accuracy : {}'.format(best_val_acc))
