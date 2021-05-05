@@ -62,7 +62,7 @@ def train(args):
             best_val_loss = val_loss
             best_val_acc = validation_acc
             best_epoch = epoch
-            torch.save(model.state_dict(), "saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_lr_1e-2_{}.pth".format(epoch + 1))
+            torch.save(model.state_dict(), "saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_lr_1e-2_transform_{}.pth".format(epoch + 1))
         # torch.save(model.state_dict(), "weights_epoch_{}.pth".format(epoch + 1))
         print('Best Validation Loss : {}'.format(best_val_loss))
         print('Best Validation Accuracy : {}'.format(best_val_acc))

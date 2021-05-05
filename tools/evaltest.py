@@ -21,7 +21,7 @@ test_data = Mnist_Data("./dataset/test.csv", "test")
 test_loader = DataLoader(test_data, batch_size=1, shuffle= False )
 
 model = CNNModel()
-model.load_state_dict(torch.load("saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_lr_1e-2_5.pth"))
+model.load_state_dict(torch.load("saved_models/best_epoch_digit_recognizer_mnist_data_pytorch1.6_lr_1e-2_transform_24.pth"))
 model.to(device)
 
 criterion = nn.CrossEntropyLoss()

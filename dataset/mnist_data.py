@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
 from torch.utils.data import  DataLoader
 from sklearn.model_selection import train_test_split
+from utils import transforms
+import random
 
 class Mnist_Data(Dataset):
     def __init__(self, data_path, split="train"):
@@ -48,26 +50,38 @@ class Mnist_Data(Dataset):
 
 
     def __getitem__(self, index):
+        # print("Index = ", index)
         if self.split == "train":
             img, label = self.train_X[index], self.train_Y[index]
+            img = img.reshape(28,28)
+            img = np.uint8(img)
+            if random.random() < 0.5:
+                img = transforms.flip(img).copy()
+            img = transforms.random_blur(img)
+            img = transforms.rotation(img, [-10, 10])
+            if random.random() < 0.3:
+                random_contrast = random.randint(50, 150) * 1.0
+                random_brightness = random.randint(-50, 50)
+                img = cv2.convertScaleAbs(img, alpha=random_contrast / 100.0, beta=random_brightness)
+            
         elif self.split == "val":
             img, label = self.val_X[index], self.val_Y[index]
+            img = img.reshape(28,28)
         else:
             img, label = self.test_X[index], self.test_Y[index]
+            img = np.uint8(img)
         # print(img)
-        img = img.reshape(28,28)
         img_tensor = torch.from_numpy(img).float().div(255)
         label_tensor =  label
         return img_tensor, label_tensor
 
 
 if __name__ == "__main__" :
-    dataset = Mnist_Data("./dataset/test.csv", "test")
+    dataset = Mnist_Data("./dataset/train.csv", "train")
     dataloader = DataLoader(dataset, batch_size = 1, shuffle = False, num_workers = 1)
     for i, (img, label) in enumerate(dataloader):
         print(i, label)
-        if i == 16:
-           
+        if i == 14:
             print(img.shape)
             plt.imshow(img[0])
             plt.plot()
