@@ -55,11 +55,13 @@ class Mnist_Data(Dataset):
             img, label = self.train_X[index], self.train_Y[index]
             img = img.reshape(28,28)
             img = np.uint8(img)
+            # print(random.random())
+            # if random.random() < 0.5 or True:
+            #     img = transforms.flip(img).copy()
             if random.random() < 0.5:
-                img = transforms.flip(img).copy()
-            img = transforms.random_blur(img)
-            img = transforms.rotation(img, [-10, 10])
-            if random.random() < 0.3:
+                img = transforms.random_blur(img)
+                img = transforms.rotation(img, [-10, 10])
+            if random.random() < 0.5 :
                 random_contrast = random.randint(50, 150) * 1.0
                 random_brightness = random.randint(-50, 50)
                 img = cv2.convertScaleAbs(img, alpha=random_contrast / 100.0, beta=random_brightness)
@@ -67,6 +69,7 @@ class Mnist_Data(Dataset):
         elif self.split == "val":
             img, label = self.val_X[index], self.val_Y[index]
             img = img.reshape(28,28)
+            img = np.uint8(img)
         else:
             img, label = self.test_X[index], self.test_Y[index]
             img = np.uint8(img)
@@ -81,7 +84,7 @@ if __name__ == "__main__" :
     dataloader = DataLoader(dataset, batch_size = 1, shuffle = False, num_workers = 1)
     for i, (img, label) in enumerate(dataloader):
         print(i, label)
-        if i == 14:
+        if i == 15:
             print(img.shape)
             plt.imshow(img[0])
             plt.plot()
